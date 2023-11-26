@@ -8,6 +8,7 @@ CREATE TABLE budgets (
 DROP TABLE IF EXISTS transactions;
 CREATE TABLE transactions (
 	id INTEGER PRIMARY KEY ASC,
+	split_id INTEGER, --if part of a split, else null
 	account_id INTEGER, --if transfer, else null
 	payee_id INTEGER,
 	transaction_label_id INTEGER,
@@ -18,20 +19,6 @@ CREATE TABLE transactions (
 	note TEXT,
 	FOREIGN KEY (account_id) REFERENCES accounts(id),
 	FOREIGN KEY (payee_id) REFERENCES payees(id),
-	FOREIGN KEY (transaction_label_id) REFERENCES transaction_labels(id)
-) STRICT;
-
-DROP TABLE IF EXISTS transaction_splits;
-CREATE TABLE transaction_splits (
-	id INTEGER PRIMARY KEY ASC,
-	transaction_id INTEGER,
-	category_id INTEGER,
-	transaction_label_id INTEGER,
-	inflow REAL,
-	outflow REAL,
-	note TEXT,
-	FOREIGN KEY (transaction_id) REFERENCES transactions(id),
-	FOREIGN KEY (category_id) REFERENCES categories(id),
 	FOREIGN KEY (transaction_label_id) REFERENCES transaction_labels(id)
 ) STRICT;
 
